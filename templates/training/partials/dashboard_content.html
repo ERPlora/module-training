@@ -1,73 +1,109 @@
-        {% load djicons i18n %}
+{% load djicons i18n %}
 
-        <div class="p-4">
+<div class="p-4">
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold">{% trans "Training & Skills" %}</h1>
+        <p class="text-sm mt-1 opacity-60">{% trans "Employee training programs and skill tracking" %}</p>
+    </div>
 
-            <!-- Welcome Card -->
-            <div class="card mb-6">
-                <div class="card-body p-6">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-                            {% icon "school-outline" css_class="text-2xl text-primary" %}
-                        </div>
-                        <div>
-                            <h2 class="text-lg font-semibold">{% trans "Training & Skills" %}</h2>
-                            <p class="text-sm text-base-content/60">{% trans "Employee training programs and skill tracking" %}</p>
-                        </div>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
+                        {% icon "cube-outline" css_class="text-xl text-primary" %}
+                    </div>
+                    <div>
+                        <div class="text-xs opacity-60">{% trans "Total TrainingPrograms" %}</div>
+                        <div class="text-xl font-semibold">{{ total_training_programs }}</div>
                     </div>
                 </div>
             </div>
-
-            <!-- Quick Actions -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">{% icon "flash-outline" css_class="text-primary" %} {% trans "Quick Actions" %}</h3>
-                </div>
-                <div class="card-body p-0">
-                    <div class="list">
-        <a hx-get="{% url 'training:programs' %}"
-   hx-target="#main-content-area"
-   hx-push-url="true"
-   class="list-item list-item-clickable">
-    <div class="list-item-start">
-        {% icon "school-outline" css_class="text-xl text-primary" %}
-    </div>
-    <div class="list-item-content">
-        <div class="list-item-label">{% trans "Programs" %}</div>
-    </div>
-    <div class="list-item-end">
-        <span class="list-item-chevron"></span>
-    </div>
-</a>
-<a hx-get="{% url 'training:skills' %}"
-   hx-target="#main-content-area"
-   hx-push-url="true"
-   class="list-item list-item-clickable">
-    <div class="list-item-start">
-        {% icon "ribbon-outline" css_class="text-xl text-primary" %}
-    </div>
-    <div class="list-item-content">
-        <div class="list-item-label">{% trans "Skills" %}</div>
-    </div>
-    <div class="list-item-end">
-        <span class="list-item-chevron"></span>
-    </div>
-</a>
-<a hx-get="{% url 'training:settings' %}"
-   hx-target="#main-content-area"
-   hx-push-url="true"
-   class="list-item list-item-clickable">
-    <div class="list-item-start">
-        {% icon "settings-outline" css_class="text-xl text-primary" %}
-    </div>
-    <div class="list-item-content">
-        <div class="list-item-label">{% trans "Settings" %}</div>
-    </div>
-    <div class="list-item-end">
-        <span class="list-item-chevron"></span>
-    </div>
-</a>
-                    </div>
-                </div>
-            </div>
-
         </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-success/10 rounded-xl flex items-center justify-center">
+                        {% icon "checkmark-circle-outline" css_class="text-xl text-success" %}
+                    </div>
+                    <div>
+                        <div class="text-xs opacity-60">{% trans "Total Skills" %}</div>
+                        <div class="text-xl font-semibold">{{ total_skills }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-warning/10 rounded-xl flex items-center justify-center">
+                        {% icon "alert-circle-outline" css_class="text-xl text-warning" %}
+                    </div>
+                    <div>
+                        <div class="text-xs opacity-60">{% trans "Total EmployeeTrainings" %}</div>
+                        <div class="text-xl font-semibold">{{ total_employee_trainings }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{% trans "Quick Actions" %}</h3>
+        </div>
+        <div class="list list-inset">
+            <a class="list-item list-item-clickable"
+               hx-get="{% url 'training:training_programs_list' %}"
+               hx-target="#main-content-area"
+               hx-push-url="true">
+                <div class="list-item-start">
+                    <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                        {% icon "list-outline" css_class="text-xl text-primary" %}
+                    </div>
+                </div>
+                <div class="list-item-content">
+                    <div class="list-item-label">{% trans "Manage TrainingPrograms" %}</div>
+                    <div class="list-item-note">{% trans "View and manage all training programs" %}</div>
+                </div>
+                <div class="list-item-end">
+                    <span class="list-item-chevron">{% icon "chevron-forward-outline" %}</span>
+                </div>
+            </a>
+            <a class="list-item list-item-clickable"
+               hx-get="{% url 'training:skills_list' %}"
+               hx-target="#main-content-area"
+               hx-push-url="true">
+                <div class="list-item-start">
+                    <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                        {% icon "list-outline" css_class="text-xl text-primary" %}
+                    </div>
+                </div>
+                <div class="list-item-content">
+                    <div class="list-item-label">{% trans "Manage Skills" %}</div>
+                    <div class="list-item-note">{% trans "View and manage all skills" %}</div>
+                </div>
+                <div class="list-item-end">
+                    <span class="list-item-chevron">{% icon "chevron-forward-outline" %}</span>
+                </div>
+            </a>
+            <a class="list-item list-item-clickable"
+               hx-get="{% url 'training:employee_trainings_list' %}"
+               hx-target="#main-content-area"
+               hx-push-url="true">
+                <div class="list-item-start">
+                    <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                        {% icon "list-outline" css_class="text-xl text-primary" %}
+                    </div>
+                </div>
+                <div class="list-item-content">
+                    <div class="list-item-label">{% trans "Manage EmployeeTrainings" %}</div>
+                    <div class="list-item-note">{% trans "View and manage all employee trainings" %}</div>
+                </div>
+                <div class="list-item-end">
+                    <span class="list-item-chevron">{% icon "chevron-forward-outline" %}</span>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
