@@ -31,3 +31,18 @@ PERMISSIONS = [
 'training.view_skill',
 'training.manage_settings',
 ]
+
+ROLE_PERMISSIONS = {
+    "admin": ["*"],
+    "manager": [
+        "add_trainingprogram",
+        "change_trainingprogram",
+        "view_skill",
+        "view_trainingprogram",
+    ],
+    "employee": [
+        "add_trainingprogram",
+        "view_skill",
+        "view_trainingprogram",
+    ],
+}
