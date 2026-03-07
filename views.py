@@ -3,6 +3,8 @@ Training & Skills Module Views
 """
 from django.core.paginator import Paginator
 from django.db.models import Q, Count
+from django.http import HttpResponse
+from django.urls import reverse
 from django.shortcuts import get_object_or_404, render as django_render
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -114,6 +116,7 @@ def training_programs_list(request):
     }
 
 @login_required
+@htmx_view('training/pages/training_program_add.html', 'training/partials/training_program_add_content.html')
 def training_program_add(request):
     hub_id = request.session.get('hub_id')
     if request.method == 'POST':
@@ -129,10 +132,13 @@ def training_program_add(request):
         obj.is_mandatory = is_mandatory
         obj.is_active = is_active
         obj.save()
-        return _render_training_programs_list(request, hub_id)
-    return django_render(request, 'training/partials/panel_training_program_add.html', {})
+        response = HttpResponse(status=204)
+        response['HX-Redirect'] = reverse('training:training_programs_list')
+        return response
+    return {}
 
 @login_required
+@htmx_view('training/pages/training_program_edit.html', 'training/partials/training_program_edit_content.html')
 def training_program_edit(request, pk):
     hub_id = request.session.get('hub_id')
     obj = get_object_or_404(TrainingProgram, pk=pk, hub_id=hub_id, is_deleted=False)
@@ -144,7 +150,7 @@ def training_program_edit(request, pk):
         obj.is_active = request.POST.get('is_active') == 'on'
         obj.save()
         return _render_training_programs_list(request, hub_id)
-    return django_render(request, 'training/partials/panel_training_program_edit.html', {'obj': obj})
+    return {'obj': obj}
 
 @login_required
 @require_POST
@@ -259,6 +265,7 @@ def skills_list(request):
     }
 
 @login_required
+@htmx_view('training/pages/skill_add.html', 'training/partials/skill_add_content.html')
 def skill_add(request):
     hub_id = request.session.get('hub_id')
     if request.method == 'POST':
@@ -270,10 +277,13 @@ def skill_add(request):
         obj.category = category
         obj.is_active = is_active
         obj.save()
-        return _render_skills_list(request, hub_id)
-    return django_render(request, 'training/partials/panel_skill_add.html', {})
+        response = HttpResponse(status=204)
+        response['HX-Redirect'] = reverse('training:skills_list')
+        return response
+    return {}
 
 @login_required
+@htmx_view('training/pages/skill_edit.html', 'training/partials/skill_edit_content.html')
 def skill_edit(request, pk):
     hub_id = request.session.get('hub_id')
     obj = get_object_or_404(Skill, pk=pk, hub_id=hub_id, is_deleted=False)
@@ -283,7 +293,7 @@ def skill_edit(request, pk):
         obj.is_active = request.POST.get('is_active') == 'on'
         obj.save()
         return _render_skills_list(request, hub_id)
-    return django_render(request, 'training/partials/panel_skill_edit.html', {'obj': obj})
+    return {'obj': obj}
 
 @login_required
 @require_POST
@@ -401,6 +411,7 @@ def employee_trainings_list(request):
     }
 
 @login_required
+@htmx_view('training/pages/employee_training_add.html', 'training/partials/employee_training_add_content.html')
 def employee_training_add(request):
     hub_id = request.session.get('hub_id')
     if request.method == 'POST':
@@ -418,10 +429,13 @@ def employee_training_add(request):
         obj.completion_date = completion_date
         obj.score = score
         obj.save()
-        return _render_employee_trainings_list(request, hub_id)
-    return django_render(request, 'training/partials/panel_employee_training_add.html', {})
+        response = HttpResponse(status=204)
+        response['HX-Redirect'] = reverse('training:employee_trainings_list')
+        return response
+    return {}
 
 @login_required
+@htmx_view('training/pages/employee_training_edit.html', 'training/partials/employee_training_edit_content.html')
 def employee_training_edit(request, pk):
     hub_id = request.session.get('hub_id')
     obj = get_object_or_404(EmployeeTraining, pk=pk, hub_id=hub_id, is_deleted=False)
@@ -434,7 +448,7 @@ def employee_training_edit(request, pk):
         obj.score = request.POST.get('score', '0') or '0'
         obj.save()
         return _render_employee_trainings_list(request, hub_id)
-    return django_render(request, 'training/partials/panel_employee_training_edit.html', {'obj': obj})
+    return {'obj': obj}
 
 @login_required
 @require_POST
