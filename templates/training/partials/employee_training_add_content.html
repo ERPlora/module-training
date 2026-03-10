@@ -1,4 +1,4 @@
-{% load djicons i18n %}
+{% load djicons i18n chooser %}
 <div data-back-url="{% url 'training:employee_trainings_list' %}" hidden></div>
 
 <div class="p-4">
@@ -26,23 +26,25 @@
         {% endif %}
     <!-- Form -->
     <form id="add-employee_training-form"
-          hx-post="{% url 'training:employee_training_add' %}">
+          hx-post="{% url 'training:employee_training_add' %}"
+          @chooser-change.window="if ($event.detail.name === 'employee_id') { $el.querySelector('[name=employee_name]').value = $event.detail.items.length ? $event.detail.items[0].label : '' }">
         {% csrf_token %}
         <div class="card mb-4">
             <div class="card-body flex flex-col gap-4">
                 <div>
-                <label class="text-sm font-medium mb-1 block">{% trans "Employee Id" %}</label>
-                <input type="text" name="employee_id" class="input input-sm w-full" placeholder="{% trans 'Employee Id' %}">
-                </div>
-
-                <div>
-                <label class="text-sm font-medium mb-1 block">{% trans "Employee Name" %}</label>
-                <input type="text" name="employee_name" class="input input-sm w-full" placeholder="{% trans 'Employee Name' %}">
+                <label class="text-sm font-medium mb-1 block">{% trans "Employee" %}</label>
+                {% chooser "accounts.localuser" name="employee_id" %}
+                <input type="hidden" name="employee_name" value="">
                 </div>
 
                 <div>
                 <label class="text-sm font-medium mb-1 block">{% trans "Status" %}</label>
-                <input type="text" name="status" class="input input-sm w-full" placeholder="{% trans 'Status' %}">
+                <select name="status" class="select select-sm w-full">
+                    <option value="enrolled" selected>{% trans "Enrolled" %}</option>
+                    <option value="in_progress">{% trans "In Progress" %}</option>
+                    <option value="completed">{% trans "Completed" %}</option>
+                    <option value="dropped">{% trans "Dropped" %}</option>
+                </select>
                 </div>
 
                 <div>
