@@ -7,6 +7,7 @@ MODULE_ICON = 'school-outline'
 MODULE_DESCRIPTION = _('Employee training programs and skill tracking')
 MODULE_AUTHOR = 'ERPlora'
 MODULE_CATEGORY = 'hr'
+HAS_MODELS = True
 
 MENU = {
     'label': _('Training & Skills'),
